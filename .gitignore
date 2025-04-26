@@ -1,0 +1,8 @@
+**/__pycache__
+*.pyc
+robot_local_config.json
+camera_local_config.json
+vision_local_config.json
+**/local_models/**
+*.log
+log_local.db

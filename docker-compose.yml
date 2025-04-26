@@ -1,0 +1,42 @@
+services:
+  web:
+    container_name: beepitron-webui-demo
+    build: webui-demo
+    volumes: 
+      - ./webui-demo:/app
+    ports:
+      - "80:80"
+    depends_on:
+      - cv
+
+  cv:
+    container_name: beepitron-cv
+    build: cv
+    runtime: nvidia
+    ports:
+      - "8001:8001"
+    volumes: 
+      - ./cv:/app
+      - ./config:/config
+      
+    devices:
+      - /dev/video0:/dev/video0
+
+  robot:
+    container_name: beepitron-robot
+    build: robot
+    ports:
+      - "48569:48569"
+      - "8002:8002"
+    volumes:
+      - ./robot:/app
+      - ./config:/config
+
+  logger:
+    container_name: beepitron-logger
+    build: log-db
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./log-db:/app
+      - ./config:/config
