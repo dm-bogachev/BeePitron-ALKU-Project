@@ -32,11 +32,11 @@ services:
       - ./robot:/app
       - ./config:/config
 
-  logger:
-    container_name: beepitron-logger
-    build: log-db
-    ports:
-      - "8003:8003"
-    volumes:
-      - ./log-db:/app
-      - ./config:/config
+  # logger:
+  #   container_name: beepitron-logger
+  #   build: log-db
+  #   ports:
+  #     - "8003:8003"
+  #   volumes:
+  #     - ./log-db:/app
+  #     - ./config:/config
