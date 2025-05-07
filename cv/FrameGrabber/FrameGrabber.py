@@ -71,8 +71,8 @@ class FrameGrabber:
 
     def get_frame(self):
         start_time = time.time()
-        frame = self.camera.get_frame()
-        #frame = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        gray = self.camera.get_frame()
+        frame = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
         try:
             h,  w = frame.shape[:2]

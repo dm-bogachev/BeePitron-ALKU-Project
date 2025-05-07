@@ -45,7 +45,7 @@ class Vision(Thread):
         super().__init__()
 
         if os.getenv('DOCKER', 'false').lower() == 'true':
-            self.MODELS_PATH = os.path.join('/', 'app', 'config', 'models')
+            self.MODELS_PATH = os.path.join('/', 'config', 'models')
         else:
             self.MODELS_PATH = os.path.join(os.path.dirname(__file__), 'local_models')
 

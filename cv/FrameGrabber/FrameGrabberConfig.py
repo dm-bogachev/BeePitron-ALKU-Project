@@ -9,7 +9,7 @@ class FrameGrabberConfig:
     def __init__(self):
         if os.getenv('DOCKER', 'false').lower() == 'true':
             self.CONFIG_NAME = "camera_config.json"
-            self.CONFIG_PATH = os.path.join('/', 'app', 'config', self.CONFIG_NAME)
+            self.CONFIG_PATH = os.path.join('/', 'config', self.CONFIG_NAME)
         else:
             self.CONFIG_NAME = "camera_local_config.json"
             self.CONFIG_PATH = os.path.join(os.path.dirname(__file__), self.CONFIG_NAME)

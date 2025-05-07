@@ -6,8 +6,9 @@ services:
       - ./webui-demo:/app
     ports:
       - "80:80"
-    depends_on:
-      - cv
+    environment:
+      - DOCKER=true
+
 
   cv:
     container_name: beepitron-cv
@@ -19,8 +20,9 @@ services:
       - ./cv:/app
       - ./config:/config
       
-    devices:
-      - /dev/video0:/dev/video0
+    network_mode: "host" 
+    environment:
+      - DOCKER=true
 
   robot:
     container_name: beepitron-robot
@@ -31,7 +33,8 @@ services:
     volumes:
       - ./robot:/app
       - ./config:/config
-
+    environment:
+      - DOCKER=true
   # logger:
   #   container_name: beepitron-logger
   #   build: log-db
