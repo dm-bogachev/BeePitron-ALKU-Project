@@ -1,4 +1,5 @@
 import logging
+import random
 
 logger = logging.getLogger()
 logging.basicConfig()
@@ -178,6 +179,12 @@ def get_display_height():
 def set_display_height(display_height: int):
     vision.frame_grabber.config['display_height'] = display_height
     return {"display_height": display_height}
+    
+@app.get("/vision/next_object")
+def next_object():
+    return random.choice(vision.objects)
+        
+        
 # @app.get("/vision/set_display_coordinates")
 # def set_display_coordinates(display_coordinates: bool):
 #     vision.config['display_coordinates'] = display_coordinates

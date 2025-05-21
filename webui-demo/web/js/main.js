@@ -2,7 +2,7 @@ const HOST = window.location.hostname;
 const ROBOT_API_URL = `http://${HOST}:8002/robot`;
 const VISION_API_URL = `http://${HOST}:8001/vision`;
 const FRAMEGRABBER_API_URL = `http://${HOST}:8001/framegrabber`;
-const LOGIC_API_URL = `http://${HOST}:800/logic`;
+const LOGIC_API_URL = `http://${HOST}:8001/vision`;
 
 //document.getElementById("video_feed").src=`${VISION_API_URL2}/video_feed`;
 
@@ -157,6 +157,41 @@ async function loadObjectList() {
         objectCountHeader.textContent = `Список объектов (Всего: ${objectCount})`;
     } catch (error) {
         console.error('Error loading object list:', error);
+    }
+}
+
+async function sendNextObject(){
+    console.log('Sending command to robot...');
+    try {
+        const response = await fetch(LOGIC_API_URL + '/next_object', {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+            }
+        });
+        console.log(response);
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Next object:', data);
+            const [class_id, , , [x, y, a]] = data;
+            const robotResponse = await fetch(`${ROBOT_API_URL}/pick?class_id=${class_id}&x=${x}&y=${y}&a=${a}`, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+            }
+            });
+
+            if (robotResponse.ok) {
+                showNotification(`Команда успешно отправлена роботу: x=${x}, y=${y}, a=${a}`);
+            } else {
+                showNotification('Ошибка при отправке команды роботу', 'error');
+            }
+        } else {
+            showNotification('Ошибка при получении следующего объекта', 'error');
+        }
+    } catch (error) {
+        console.error('Error sending command to robot:', error);
+        showNotification('Ошибка при отправке команды роботу', 'error');
     }
 }
 
@@ -489,6 +524,8 @@ document.addEventListener('DOMContentLoaded', loadCurrentConfidence);
 document.addEventListener('DOMContentLoaded', fetchModels);
 
 setInterval(() => {
+
+    
     loadObjectList();
     const robot_status = document.querySelector('.robot-status .status-dot');
     console.log("Checking robot connection...");
@@ -507,3 +544,7 @@ setInterval(() => {
         )
         .catch(error => console.error('Error:', error));
 }, 1000);
+
+setInterval(() => {
+sendNextObject();
+}, 2000);

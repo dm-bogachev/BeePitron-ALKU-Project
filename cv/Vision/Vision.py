@@ -63,13 +63,16 @@ class Vision(Thread):
 
     def prediction_cases(self, model, box_data, keypoints_data = None, frame = None):
         kp = keypoints_data
-        if model == 'Test':
+        if model == 'Test2':
             xmin, ymin, xmax, ymax = int(box_data[0]), int(box_data[1]), int(box_data[2]), int(box_data[3])
             center_x = (xmin + xmax) // 2
             center_y = (ymin + ymax) // 2
             logger.info(f"Center coordinates: ({center_x/10}, {center_y/10})")
             return [int(center_x), int(center_y), 0]
-        if model == 'Test2':
+        if model == 'Test':
+            xmin, ymin, xmax, ymax = int(box_data[0]), int(box_data[1]), int(box_data[2]), int(box_data[3])
+            center_x = (xmin + xmax) // 2
+            center_y = (ymin + ymax) // 2
             topx, topy, midx, midy, botx, boty = int(kp[0][0]),int(kp[0][1]),int(kp[1][0]),int(kp[1][1]),int(kp[2][0]),int(kp[2][1])
             cv2.circle(frame, (topx, topy), 10, COLOR_RED, -1)
             cv2.circle(frame, (botx, boty), 10, COLOR_BLUE, -1)
@@ -78,7 +81,7 @@ class Vision(Thread):
             else:
                 alpha = 1800
             #pickx, picky = int((xmin+xmax)/2), int((ymin+ymax)/2)
-            return [int(midx), int(midy), alpha]
+            return [int(center_x), int(center_y), alpha]
         if model == 'Longs':
             topx, topy, midx, midy, botx, boty = int(kp[0][0]),int(kp[0][1]),int(kp[1][0]),int(kp[1][1]),int(kp[2][0]),int(kp[2][1])
             cv2.circle(frame, (topx, topy), 10, COLOR_RED, -1)
