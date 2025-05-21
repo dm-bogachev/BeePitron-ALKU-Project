@@ -6,5 +6,6 @@ vision_local_config.json
 **/local_models/**
 *.log
 log_local.db
-*.zip
-*.json
+config.zip
+config/calibration_data.npy
+*.pt

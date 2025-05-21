@@ -1,0 +1,19 @@
+{
+    "display_box": true,
+    "display_pose": true,
+    "display_coordinates": true,
+    "display_confidence": true,
+    "display_fps": true,
+    "class_names": [
+        "Test"
+    ],
+    "models": {
+        "Test": "testdet.pt"
+    },
+    "minimal_confidences": {
+        "Test": 0.75
+    },
+    "model_type": {
+        "Test": "pose"
+    }
+}

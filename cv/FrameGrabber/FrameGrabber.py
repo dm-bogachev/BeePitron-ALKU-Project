@@ -50,12 +50,13 @@ class FrameGrabber:
     def calibrate(self):
         logger.info('Begin calibration')
         gray = self.camera.get_frame()
-        markers = self.aruco.detectMarkers(gray)
+        frame = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        markers = self.aruco.detectMarkers(frame)
 
         logger.info(f'Found {len(markers)} markers')
         if len(markers) >= 4:
             start_p = np.float32(
-                [markers[1].topRight, markers[3].bottomRight, markers[2].bottomLeft, markers[0].topLeft])
+                [markers[1].topLeft, markers[3].topRight, markers[2].bottomRight, markers[0].bottomLeft])
             dest_p = np.float32([[0, 0], [self.config['markers_x_distance'], 0], [
                                 self.config['markers_x_distance'], self.config['markers_y_distance']], [0, self.config['markers_y_distance']]])
             self.M = cv2.getPerspectiveTransform(start_p, dest_p)
